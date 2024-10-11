@@ -1,24 +1,26 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:foodtracker/model/api_status.dart';
 import 'package:foodtracker/model/openfoodfacts_model/product_model_v2.dart';
 import 'package:foodtracker/model/user_error.dart';
 import 'package:foodtracker/view_model/prodf_view_model.dart';
 import 'package:foodtracker/model/openfoodfacts_model/product_service_v2.dart';
-import 'package:http/http.dart';
+
 import 'package:openfoodfacts/openfoodfacts.dart';
 
 class ProductViewModel extends ChangeNotifier {
   Product? _productModel;
+
   UserError _userError = UserError(code: 0, message: '');
+
   ProdfProvider productsDB = ProdfProvider();
+
   bool _loading = false;
   bool _showcard = false;
   bool _showalert = false;
-  bool _showSnackbar = false;
-  bool _showProductCreation = false;
-  bool _takeaPicture = false;
+  bool _showError = false;
+  bool _showSuccess = false;
+
   String _upcNumber = '';
   List<Map<String, dynamic>> _dbProduct = [];
   dynamic dbString;
@@ -32,7 +34,6 @@ class ProductViewModel extends ChangeNotifier {
   get productModel => _productModel;
 
   get userError {
-    //setSnackbar(false);
     return _userError;
   }
 
@@ -40,11 +41,11 @@ class ProductViewModel extends ChangeNotifier {
 
   get showcard => _showcard;
 
-  get takeaPicture => _takeaPicture;
-
   get showalert => _showalert;
 
-  get productCreation => _showProductCreation;
+  get showError => _showError;
+
+  get showSuccess => _showSuccess;
 
   get upcNumber => _upcNumber;
 
@@ -53,8 +54,6 @@ class ProductViewModel extends ChangeNotifier {
   }
 
   get delIndex => _delIndex;
-
-  get showSnackbar => _showSnackbar;
 
   getToJson() {
     return jsonEncode(productModel.toJson());
@@ -87,8 +86,7 @@ class ProductViewModel extends ChangeNotifier {
 
       _dbProduct.add(registro);
     });
-
-    notifyListeners();
+    setLoading(false);
   }
 
   String getDateDiff(DateTime expirationDate) {
@@ -115,43 +113,13 @@ class ProductViewModel extends ChangeNotifier {
           '', '', '', '', '', getToJson().toString(), expirationDate);
       getDataBaseProducts();
       setShowCard(false);
+
+      _showSuccessDialog();
       notifyListeners();
     } catch (e) {
       print(e);
       //TODO definir manejo de errores
     }
-  }
-
-  _setTakeaPicture(bool takeaPicture) {
-    _takeaPicture = takeaPicture;
-  }
-
-  // Stores a new product a the firestore DB
-  storeProductOpenFoodFacts(String description) {
-    Response response = ProdructService(_upcNumber).addNewProduct(description);
-
-    if (response is Success) {
-      // setShowCard(true);
-
-      _setTakeaPicture(true);
-      setProductListModel(response.body);
-      UserError userError = UserError(code: 0, message: '');
-      setUserError(userError);
-
-      notifyListeners();
-    }
-    if (response is Failure) {
-      UserError userError =
-          UserError(code: response.statusCode, message: response.body);
-
-      setUserError(userError);
-      setSnackbar(true);
-      setLoading(false);
-
-      notifyListeners();
-    }
-    _setProductCreation(false);
-    notifyListeners();
   }
 
   cancelProdcutStorage() {
@@ -167,20 +135,40 @@ class ProductViewModel extends ChangeNotifier {
   }
 
   confirmDeletionDbProduct() async {
+    setLoading(true);
     await productsDB.deleteProds(_deletionId);
     _deletionId = 0;
     _showalert = false;
 
     UserError userError = UserError(code: 0, message: 'Record deleted');
     setUserError(userError);
-    setSnackbar(true);
     getDataBaseProducts();
-    notifyListeners();
+    setLoading(false);
   }
 
   cancelDeletionDbProduct() async {
     _deletionId = 0;
     _showalert = false;
+    notifyListeners();
+  }
+
+  _showErrorDialog() {
+    _showError = true;
+    notifyListeners();
+  }
+
+  _showSuccessDialog() {
+    _showSuccess = true;
+    notifyListeners();
+  }
+
+  dismissErrorDialog() {
+    _showError = false;
+    notifyListeners();
+  }
+
+  dismissSuccessDialog() {
+    _showSuccess = false;
     notifyListeners();
   }
 
@@ -206,16 +194,7 @@ class ProductViewModel extends ChangeNotifier {
 
   setShowCard(bool showcard) {
     _showcard = showcard;
-    notifyListeners();
-  }
-
-  setSnackbar(bool showsnack) {
-    _showSnackbar = showsnack;
-    notifyListeners();
-  }
-
-  _setProductCreation(bool productCreation) {
-    _showProductCreation = productCreation;
+    // notifyListeners();
   }
 
   cleanProductViewModel() {
@@ -225,24 +204,26 @@ class ProductViewModel extends ChangeNotifier {
 
   getProducts() async {
     // setLoading(true); TODO desbloquear despues de la prueba de fotografia
+    setLoading(true);
     await cleanProductViewModel();
     var response = await ProdructService(_upcNumber).getProductInfor();
 
     if (response is Success) {
       setShowCard(true);
+      setLoading(false);
       setProductListModel(response.response);
       UserError userError = UserError(code: 0, message: '');
       setUserError(userError);
-      setLoading(false);
+
       notifyListeners();
     }
     if (response is Failure) {
-/*       UserError userError =
+      UserError userError =
           UserError(code: response.errorCode, message: response.errorResponse);
 
       setUserError(userError);
-      _setProductCreation(true);
-      setLoading(false); */
+      setLoading(false);
+      _showErrorDialog();
 
       notifyListeners();
     }

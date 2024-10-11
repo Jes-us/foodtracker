@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:foodtracker/view/prodruct_card.dart';
-import 'package:foodtracker/utilities/barcode_reader.dart';
+import 'package:foodtracker/view/components/prodruct_card.dart';
 import 'package:foodtracker/view/components/loading_app.dart';
+import 'package:foodtracker/view/components/error_screen.dart';
+import 'package:foodtracker/view/cupboard_screen/success_screen.dart';
 import '../components/product_list.dart';
 import '../components/alert_dialog.dart';
 import '../components/animated_transitions.dart';
 import 'package:foodtracker/core/app_export.dart';
-import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   String scanBarcode = '-1';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +74,7 @@ class HomePage extends StatelessWidget {
                   shape: ContinuousRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   child: const Icon(
-                    Icons.add,
+                    Icons.photo_camera,
                     size: 30.0,
                     weight: 20.0,
                     color: Color.fromARGB(255, 249, 243, 243),
@@ -72,19 +82,14 @@ class HomePage extends StatelessWidget {
                   onPressed: () async {
                     await _scan();
 
-                    if (scanBarcode != '-1') {
+                    if (scanBarcode != '-1' && scanBarcode != "") {
                       await productViewModel.setUpcNumber(scanBarcode);
                       await productViewModel.getProducts();
-
-                      if (productViewModel.userError.code != 0 &&
-                          productViewModel.showSnackbar == true) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(CustomSnackBar.show(context));
-                      }
                     }
                   }),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
             //  ],
             // ),
           ),
@@ -96,10 +101,9 @@ class HomePage extends StatelessWidget {
   bool showfloatingActionButton(ProductViewModel productViewModel) {
     if (productViewModel.loading == false &&
         productViewModel.showcard == false &&
-        productViewModel.productCreation == false &&
         productViewModel.showalert == false &&
-        productViewModel.takeaPicture == false &&
-        productViewModel.userError.code == 0) {
+        productViewModel.showSuccess == false &&
+        productViewModel.showError == false) {
       return true;
     } else {
       return false;
@@ -110,44 +114,45 @@ class HomePage extends StatelessWidget {
       BuildContext context, ProductViewModel productViewModel) {
     if (productViewModel.loading == false &&
         productViewModel.showcard == false &&
-        productViewModel.productCreation == false &&
-        productViewModel.showalert == false &&
-        productViewModel.takeaPicture == false) {
+        productViewModel.showError == false &&
+        productViewModel.showSuccess == false &&
+        productViewModel.showalert == false) {
       return CustomAnimatedTransition(aniteWidget: const ProductList());
     }
     if (productViewModel.loading == false &&
         productViewModel.showcard == true &&
-        productViewModel.productCreation == false &&
-        productViewModel.showalert == false &&
-        productViewModel.takeaPicture == false) {
+        productViewModel.showError == false &&
+        productViewModel.showSuccess == false &&
+        productViewModel.showalert == false) {
       return CustomAnimatedTransition(aniteWidget: const ProductCard());
     }
     if (productViewModel.loading == false &&
         productViewModel.showcard == false &&
-        productViewModel.productCreation == false &&
-        productViewModel.showalert == true &&
-        productViewModel.takeaPicture == false) {
+        productViewModel.showError == false &&
+        productViewModel.showSuccess == false &&
+        productViewModel.showalert == true) {
       return CustomAnimatedTransition(aniteWidget: const CustomAlertDialog());
     }
+
     if (productViewModel.loading == false &&
         productViewModel.showcard == false &&
-        productViewModel.productCreation == true &&
         productViewModel.showalert == false &&
-        productViewModel.takeaPicture == false) {
-      return CustomAnimatedTransition(aniteWidget: const ProductCreation());
+        productViewModel.showSuccess == false &&
+        productViewModel.showError == true) {
+      return CustomAnimatedTransition(aniteWidget: const ErrorScreen());
     }
+
     if (productViewModel.loading == false &&
         productViewModel.showcard == false &&
-        productViewModel.productCreation == false &&
         productViewModel.showalert == false &&
-        productViewModel.takeaPicture == true) {
+        productViewModel.showError == false &&
+        productViewModel.showSuccess == true) {
       return CustomAnimatedTransition(
-          aniteWidget: InputImage(
-        fromCamera: false,
+          aniteWidget: SuccessScreen(
+        message: 'Product stored correctly',
       ));
-    } else {
-      return const LoadingApp();
     }
+    return const LoadingApp();
   }
 
   Future<void> _scan() async {
@@ -171,51 +176,5 @@ class HomePage extends StatelessWidget {
     } catch (e) {
       scanBarcode = '-1';
     }
-  }
-}
-
-class BarCodeScanner extends StatelessWidget {
-  const BarCodeScanner({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AiBarcodeScanner(
-      fit: BoxFit.scaleDown,
-      onDispose: () {
-        /// This is called when the barcode scanner is disposed.
-        /// You can write your own logic here.
-        debugPrint("Barcode scanner disposed!");
-      },
-      hideGalleryButton: false,
-      controller: MobileScannerController(
-        detectionSpeed: DetectionSpeed.noDuplicates,
-      ),
-      onDetect: (BarcodeCapture capture) {
-        /// The row string scanned barcode value
-        // final String? scannedValue =
-        String _scanBarcode = capture.barcodes.first.rawValue ?? '-1';
-        debugPrint("Barcode scanned: $_scanBarcode");
-
-        /// row data of the barcode
-        final Object? raw = capture.raw;
-        debugPrint("Barcode raw: $raw");
-
-        /// List of scanned barcodes if any
-        final List<Barcode> barcodes = capture.barcodes;
-        debugPrint("Barcode list: $barcodes");
-      },
-      validator: (value) {
-        if (value.barcodes.isEmpty) {
-          return false;
-        }
-        if (!(value.barcodes.first.rawValue?.contains('flutter.dev') ??
-            false)) {
-          return false;
-        }
-        return true;
-      },
-    );
   }
 }

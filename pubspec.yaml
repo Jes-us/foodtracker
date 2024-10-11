@@ -43,10 +43,7 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   sqflite_common_ffi: ^2.3.0+2
-  shared_preferences: ^2.2.2
   openfoodfacts: ^3.3.1
-  image_picker: ^1.0.7
-  ai_barcode_scanner: ^5.2.2
   barcode_scan2: ^4.3.3
 
 dev_dependencies:

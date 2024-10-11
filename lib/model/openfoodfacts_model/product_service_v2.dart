@@ -14,7 +14,7 @@ class ProdructService {
 
     final ProductQueryConfiguration configuration = ProductQueryConfiguration(
       barcode,
-      language: OpenFoodFactsLanguage.GERMAN,
+      language: OpenFoodFactsLanguage.ENGLISH,
       fields: [ProductField.ALL],
       version: ProductQueryVersion.v3,
     );
@@ -44,30 +44,5 @@ class ProdructService {
     }
 
     return Failure(errorCode: 0, errorResponse: 'Unknown error');
-  }
-
-  addNewProduct(String? productName) async {
-    // define the product to be added.
-    // more attributes available ...
-    Product myProduct = Product(
-      barcode: upcNumber,
-      productName: productName,
-    );
-
-    // a registered user login for https://world.openfoodfacts.org/ is required
-    User myUser = const User(userId: 'jermadrid1984', password: 'manolito');
-
-    // query the OpenFoodFacts API
-    try {
-      Status result = await OpenFoodAPIClient.saveProduct(myUser, myProduct);
-
-      if (result.status != 1) {
-        return Failure(errorCode: -1, errorResponse: result.statusVerbose);
-      } else {
-        return Success(code: 1, response: myProduct);
-      }
-    } catch (e) {
-      return Failure(errorCode: -1, errorResponse: e.toString());
-    }
   }
 }

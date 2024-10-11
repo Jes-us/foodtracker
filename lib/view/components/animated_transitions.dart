@@ -12,8 +12,6 @@ class CustomAnimatedTransition extends StatefulWidget {
 
 class _CustomAnimatedTransitionState extends State<CustomAnimatedTransition>
     with TickerProviderStateMixin {
-  //bool icon = true;
-
   @override
   Widget build(BuildContext context) {
     late final AnimationController controller =

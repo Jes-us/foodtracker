@@ -110,8 +110,6 @@ class CustomAlertDialog extends StatelessWidget {
               ),
               onPressed: () async {
                 await productViewModel.confirmDeletionDbProduct();
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(CustomSnackBar.show(context));
               }),
         ],
       ),
