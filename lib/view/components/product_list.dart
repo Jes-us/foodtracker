@@ -12,7 +12,7 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductViewModel productViewModel = context.read<ProductViewModel>();
+    ProductViewModel productViewModel = context.watch<ProductViewModel>();
 
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -132,7 +132,14 @@ class ProductList extends StatelessWidget {
                       child: FittedBox(
                         child: Text(
                           productViewModel.prodList[index]['product'].brands
-                              .toString(),
+                                  .toString()
+                                  .isEmpty
+                              ? productViewModel
+                                  .prodList[index]['product'].productName
+                                  .toString()
+                              : productViewModel
+                                  .prodList[index]['product'].brands
+                                  .toString(),
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold),

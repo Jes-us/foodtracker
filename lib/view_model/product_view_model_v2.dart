@@ -5,13 +5,16 @@ import 'package:foodtracker/model/openfoodfacts_model/product_model_v2.dart';
 import 'package:foodtracker/model/user_error.dart';
 import 'package:foodtracker/view_model/prodf_view_model.dart';
 import 'package:foodtracker/model/openfoodfacts_model/product_service_v2.dart';
-
 import 'package:openfoodfacts/openfoodfacts.dart';
+
+enum CupboardStattes { initial, loading, showcard, showalert, Error, Success }
 
 class ProductViewModel extends ChangeNotifier {
   Product? _productModel;
 
   UserError _userError = UserError(code: 0, message: '');
+
+  CupboardStattes _cupboardStattes = CupboardStattes.initial;
 
   ProdfProvider productsDB = ProdfProvider();
 
@@ -86,7 +89,7 @@ class ProductViewModel extends ChangeNotifier {
 
       _dbProduct.add(registro);
     });
-    setLoading(false);
+    notifyListeners();
   }
 
   String getDateDiff(DateTime expirationDate) {
@@ -148,6 +151,7 @@ class ProductViewModel extends ChangeNotifier {
 
   cancelDeletionDbProduct() async {
     _deletionId = 0;
+
     _showalert = false;
     notifyListeners();
   }

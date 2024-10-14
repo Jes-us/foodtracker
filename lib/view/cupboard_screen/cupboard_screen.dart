@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodtracker/view/components/prodruct_card.dart';
 import 'package:foodtracker/view/components/loading_app.dart';
-import 'package:foodtracker/view/components/error_screen.dart';
+import 'package:foodtracker/view/cupboard_screen/error_screen.dart';
 import 'package:foodtracker/view/cupboard_screen/success_screen.dart';
 import '../components/product_list.dart';
 import '../components/alert_dialog.dart';
@@ -41,6 +41,11 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.surface,
             appBar: AppBar(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(15), // Radio de la parte inferior
+                ),
+              ),
               elevation: 1,
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               actions: [
@@ -57,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Abril Fatface',
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onPrimaryContainer),
               ),
@@ -117,21 +122,21 @@ class _HomePageState extends State<HomePage> {
         productViewModel.showError == false &&
         productViewModel.showSuccess == false &&
         productViewModel.showalert == false) {
-      return CustomAnimatedTransition(aniteWidget: const ProductList());
+      return CustomAnimatedTransition(aniteWidget: ProductList());
     }
     if (productViewModel.loading == false &&
         productViewModel.showcard == true &&
         productViewModel.showError == false &&
         productViewModel.showSuccess == false &&
         productViewModel.showalert == false) {
-      return CustomAnimatedTransition(aniteWidget: const ProductCard());
+      return CustomAnimatedTransition(aniteWidget: ProductCard());
     }
     if (productViewModel.loading == false &&
         productViewModel.showcard == false &&
         productViewModel.showError == false &&
         productViewModel.showSuccess == false &&
         productViewModel.showalert == true) {
-      return CustomAnimatedTransition(aniteWidget: const CustomAlertDialog());
+      return CustomAnimatedTransition(aniteWidget: CustomAlertDialog());
     }
 
     if (productViewModel.loading == false &&
@@ -139,7 +144,7 @@ class _HomePageState extends State<HomePage> {
         productViewModel.showalert == false &&
         productViewModel.showSuccess == false &&
         productViewModel.showError == true) {
-      return CustomAnimatedTransition(aniteWidget: const ErrorScreen());
+      return CustomAnimatedTransition(aniteWidget: ErrorScreen());
     }
 
     if (productViewModel.loading == false &&

@@ -28,7 +28,7 @@ class _CustomAnimatedIconState extends State<CustomAnimatedIcon> {
         );
       },
       child: Icon(
-        icon ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+        icon ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
         key: ValueKey(widget.change),
         color: icon
             ? Theme.of(context).colorScheme.onPrimary

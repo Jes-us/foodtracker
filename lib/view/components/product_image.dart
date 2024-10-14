@@ -35,7 +35,7 @@ class CustomCircularProgressIndicator extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(5.0),
         child: const CircularProgressIndicator(
-          color: Colors.white,
+          color: Color(0xFfF05833),
           strokeWidth: 1,
         ),
       ),

@@ -4,10 +4,10 @@ const Color _colorSeed = Color.fromARGB(215, 252, 137, 7);
 
 const kColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFfF05833), //color agregado
+  primary: Color(0xFFF05833), //color agregado
   onPrimary: Color(0xFFFFFFFF), //color agregadp
-  primaryContainer: Color(0xfffffffff), //Color(0xFFe9ddc7),color agregado
-  onPrimaryContainer: Color(0xFfF05833), // agregado
+  primaryContainer: Color(0xFFFFFFFF), //Color(0xFFe9ddc7),color agregado
+  onPrimaryContainer: Color(0xFFF05833), // agregado
   secondary: Color(0xFFF8FDFF), //color
   onSecondary: Color(0xFF0e4d6c), //color
   secondaryContainer: Color(0xFF000000),
@@ -15,14 +15,14 @@ const kColorScheme = ColorScheme(
   tertiary: Color(0xFFC00012),
   onTertiary: Color(0xFFFFFFFF),
   tertiaryContainer: Color(0xFFFFDAD6),
-  onTertiaryContainer: Color(0xfffffffff),
+  onTertiaryContainer: Color(0xFFFFFFFF),
   error: Color(0xFFBA1A1A),
   errorContainer: Color(0xFFFFDAD6),
   onError: Color(0xFFFFFFFF),
   onErrorContainer: Color(0xFF410002),
-  surface: Color(0xFFe9ddc7), //agregado
+  surface: Color(0xFFE9DDC7), //agregado
   onSurface: Color(0xFF2c4653), //agregado
-  surfaceContainerHighest: Color(0xFFffffff),
+  surfaceContainerHighest: Color(0xFFFFFFFF),
   onSurfaceVariant: Color(0xFF3F484A),
   outline: Color(0xFF6F797A),
   onInverseSurface: Color(0xFFD6F6FF),
@@ -36,10 +36,10 @@ const kColorScheme = ColorScheme(
 
 const kDarkColorScheme = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFfF05833), //color agregado
+  primary: Color(0xFFF05833), //color agregado
   onPrimary: Color(0xFFFFFFFF), //color agregadp
-  primaryContainer: Color(0xFF0e4d6c), //color agregado
-  onPrimaryContainer: Color(0xFFe9ddc7),
+  primaryContainer: Color(0xFF0E4D6C), //color agregado
+  onPrimaryContainer: Color(0xFFE9DDC7),
   secondary: Color(0xFF0e4d6c),
   onSecondary: Color(0xFFF8FDFF),
   secondaryContainer: Color(0xFF004A78),
@@ -53,7 +53,7 @@ const kDarkColorScheme = ColorScheme(
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
   surface: Color(0xFF2c4653), //agregado
-  onSurface: Color(0xFFe9ddc7), //agregadp
+  onSurface: Color(0xFFE9DDC7), //agregadp
   surfaceContainerHighest: Color(0xFF3F484A),
   onSurfaceVariant: Color(0xFFBFC8CA),
   outline: Color(0xFF899294),

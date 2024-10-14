@@ -10,15 +10,11 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductViewModel productViewModel = context.read<ProductViewModel>();
 
-    String upcCode = productViewModel.productModel.barcode == ''
-        ? 'not found'
-        : productViewModel.productModel.barcode;
-
     String image;
     if (productViewModel.productModel.imageFrontUrl != null) {
       image = productViewModel.productModel.imageFrontUrl;
     } else {
-      image = 'not found';
+      image = '';
     }
 
     String brand = productViewModel.productModel.brands ?? 'not found';
@@ -44,7 +40,7 @@ class ProductCard extends StatelessWidget {
     return Container(
       width: deviceDisplaywidth,
       height: deviceDisplayheight,
-      color: Theme.of(context).colorScheme.surface,
+      color: Theme.of(context).colorScheme.secondary,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -60,8 +56,8 @@ class ProductCard extends StatelessWidget {
             ),
             const Spacer(),
             Container(
-              width: deviceDisplaywidth * 0.85,
-              height: deviceDisplayheight * 0.50,
+              width: deviceDisplaywidth * 0.60,
+              height: deviceDisplayheight * 0.30,
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.onPrimary,
@@ -90,13 +86,26 @@ class ProductCard extends StatelessWidget {
             ),
             const Spacer(),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Text(
-                  description,
+                  'Engredients:' + description,
+                  textAlign: TextAlign.center,
                   style: ktextStyle2,
                 ),
+              ),
+            ),
+            Spacer(),
+            SizedBox(
+              width: deviceDisplaywidth * 0.90,
+              child: CustomTextButton(
+                label: 'Back',
+                onPressed: () {
+                  productViewModel.cancelProdcutStorage();
+                },
+                isFirst: false,
+                isEnable: true,
               ),
             ),
             SizedBox(
@@ -105,6 +114,8 @@ class ProductCard extends StatelessWidget {
                 label: 'Store Product',
                 onPressed: () async {
                   DateTime? pickedDate = await showDatePicker(
+                    initialEntryMode: DatePickerEntryMode.calendarOnly,
+                    initialDatePickerMode: DatePickerMode.year,
                     builder: (context, child) {
                       return Stack(
                         alignment: Alignment.center,
@@ -113,8 +124,8 @@ class ProductCard extends StatelessWidget {
                     },
                     context: context,
                     initialDate: DateTime.now(), //get today's date
-                    firstDate: DateTime(
-                        2000), //DateTime.now() - not to allow to choose before today.
+                    firstDate: DateTime
+                        .now(), //DateTime.now() - not to allow to choose before today.
                     lastDate: DateTime(2101),
                   );
 
@@ -124,17 +135,6 @@ class ProductCard extends StatelessWidget {
                   }
                 },
                 isFirst: true,
-                isEnable: true,
-              ),
-            ),
-            SizedBox(
-              width: deviceDisplaywidth * 0.90,
-              child: CustomTextButton(
-                label: 'Back',
-                onPressed: () {
-                  productViewModel.cancelProdcutStorage();
-                },
-                isFirst: false,
                 isEnable: true,
               ),
             ),

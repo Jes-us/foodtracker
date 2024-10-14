@@ -26,13 +26,13 @@ class CustomTextButton extends StatelessWidget {
           style: TextButton.styleFrom(
             backgroundColor: isFirst
                 ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.secondary,
+                : Theme.of(context).colorScheme.surface,
           ),
           icon: Icon(
             icon,
             color: isFirst
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onPrimary,
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onSurface,
             size: 16.0,
           ),
           onPressed: onPressed,
@@ -41,7 +41,7 @@ class CustomTextButton extends StatelessWidget {
             style: TextStyle(
               color: isFirst
                   ? Theme.of(context).colorScheme.onPrimary
-                  : Theme.of(context).colorScheme.onPrimary,
+                  : Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),
