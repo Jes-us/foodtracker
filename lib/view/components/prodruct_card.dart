@@ -90,7 +90,7 @@ class ProductCard extends StatelessWidget {
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Text(
-                  'Engredients:' + description,
+                  'Engredients:$description',
                   textAlign: TextAlign.center,
                   style: ktextStyle2,
                 ),

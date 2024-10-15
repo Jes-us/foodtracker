@@ -11,7 +11,7 @@ class LoadingApp extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20.0),
         child: const CircularProgressIndicator(
-          color: Colors.white,
+          color: Color(0xFFF05833),
           strokeWidth: 5,
         ),
       ),

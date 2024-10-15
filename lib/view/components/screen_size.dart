@@ -4,12 +4,12 @@ class ScreenSizeProvider extends InheritedWidget {
   final double screenHeight;
   final double screenWidth;
 
-  ScreenSizeProvider({
-    Key? key,
-    required Widget child,
+  const ScreenSizeProvider({
+    super.key,
+    required super.child,
     required this.screenHeight,
     required this.screenWidth,
-  }) : super(key: key, child: child);
+  });
 
   static ScreenSizeProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<ScreenSizeProvider>();

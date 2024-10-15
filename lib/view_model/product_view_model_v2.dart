@@ -7,14 +7,21 @@ import 'package:foodtracker/view_model/prodf_view_model.dart';
 import 'package:foodtracker/model/openfoodfacts_model/product_service_v2.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
-enum CupboardStattes { initial, loading, showcard, showalert, Error, Success }
+enum CupboardStattes {
+  initial,
+  loading,
+  showcard,
+  showalert,
+  ErrorState,
+  SuccessState
+}
 
 class ProductViewModel extends ChangeNotifier {
   Product? _productModel;
 
   UserError _userError = UserError(code: 0, message: '');
 
-  CupboardStattes _cupboardStattes = CupboardStattes.initial;
+  final CupboardStattes _cupboardStattes = CupboardStattes.initial;
 
   ProdfProvider productsDB = ProdfProvider();
 
@@ -29,6 +36,7 @@ class ProductViewModel extends ChangeNotifier {
   dynamic dbString;
   int _deletionId = 0;
   int _delIndex = 0;
+  String _successMessage = '';
 
   ProductViewModel() {
     getDataBaseProducts();
@@ -51,6 +59,8 @@ class ProductViewModel extends ChangeNotifier {
   get showSuccess => _showSuccess;
 
   get upcNumber => _upcNumber;
+
+  get successMessage => _successMessage;
 
   get prodList {
     return _dbProduct;
@@ -117,7 +127,7 @@ class ProductViewModel extends ChangeNotifier {
       getDataBaseProducts();
       setShowCard(false);
 
-      _showSuccessDialog();
+      _showSuccessDialog('Product stored in the cupboard');
       notifyListeners();
     } catch (e) {
       print(e);
@@ -147,6 +157,7 @@ class ProductViewModel extends ChangeNotifier {
     setUserError(userError);
     getDataBaseProducts();
     setLoading(false);
+    _showSuccessDialog('Product dropped from the cupboard');
   }
 
   cancelDeletionDbProduct() async {
@@ -161,8 +172,13 @@ class ProductViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  _showSuccessDialog() {
+  _setSuccessMessage(String message) {
+    _successMessage = message;
+  }
+
+  _showSuccessDialog(String message) {
     _showSuccess = true;
+    _setSuccessMessage(message);
     notifyListeners();
   }
 

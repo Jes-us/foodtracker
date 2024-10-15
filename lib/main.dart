@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
 import 'package:foodtracker/view/cupboard_screen/cupboard_screen.dart';
+import 'package:foodtracker/view_model/internet_connection_view_model.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/app_export.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 ThemeMode customizedThemeMode = ThemeMode.dark;
 String? email;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   sqfliteFfiInit();
   runApp(const MyApp());
 }
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
             create: (context) => Manage(customizedThemeMode),
           ),
           ChangeNotifierProvider(create: (context) => ProductViewModel()),
+          ChangeNotifierProvider(create: (context) => ConnectivityModel()),
         ],
         child: Consumer<Manage>(
           builder: (context, Manage themenotifier, child) {

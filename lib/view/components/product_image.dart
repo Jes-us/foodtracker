@@ -19,6 +19,13 @@ class ProductImage extends StatelessWidget {
           return const CustomCircularProgressIndicator();
         }
       },
+      errorBuilder: (context, error, stackTrace) {
+        return const Icon(
+          Icons.signal_wifi_connected_no_internet_4,
+          size: 35,
+          color: Color(0xFFF05833),
+        );
+      },
       fit: BoxFit.scaleDown,
     );
   }
@@ -33,10 +40,9 @@ class CustomCircularProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: const EdgeInsets.all(5.0),
         child: const CircularProgressIndicator(
           color: Color(0xFfF05833),
-          strokeWidth: 1,
+          strokeWidth: 5,
         ),
       ),
     );

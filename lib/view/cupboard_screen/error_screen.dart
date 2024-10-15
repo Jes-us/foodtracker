@@ -16,7 +16,7 @@ class ErrorScreen extends StatelessWidget {
     return Container(
       width: screenWidth,
       height: screenHeight,
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: Theme.of(context).colorScheme.surface,
       child: Container(
         padding: const EdgeInsets.all(20),
         child: Column(

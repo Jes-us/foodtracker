@@ -3,12 +3,9 @@ import 'package:foodtracker/view/components/screen_size.dart';
 import 'package:foodtracker/core/app_export.dart';
 
 class SuccessScreen extends StatelessWidget {
-  SuccessScreen({
+  const SuccessScreen({
     super.key,
-    required this.message,
   });
-
-  String message;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +19,7 @@ class SuccessScreen extends StatelessWidget {
     return Container(
       width: screenWidth,
       height: screenHeight,
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: Theme.of(context).colorScheme.surface,
       child: Container(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -36,7 +33,7 @@ class SuccessScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.02,
             ),
-            Text(message,
+            Text(productViewModel.successMessage,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
