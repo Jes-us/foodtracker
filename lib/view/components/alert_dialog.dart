@@ -3,6 +3,7 @@ import 'package:foodtracker/core/app_export.dart';
 import 'package:foodtracker/view/components/custom_text_button.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
 import 'product_image.dart';
+import 'package:foodtracker/view/constants.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   const CustomAlertDialog({super.key});
@@ -29,7 +30,7 @@ class CustomAlertDialog extends StatelessWidget {
                 const Flexible(
                   flex: 3,
                   child: FittedBox(
-                    child: Text('Are you sure to delete this item?'),
+                    child: Text(kdeletionConfirm),
                   ),
                 ),
                 Spacer(),
@@ -92,7 +93,7 @@ class CustomAlertDialog extends StatelessWidget {
           SizedBox(
             width: dialogWidth * 0.90,
             child: CustomTextButton(
-                label: 'Cancel',
+                label: kcancelButtonLabel,
                 isFirst: false,
                 isEnable: true,
                 onPressed: () {
@@ -102,7 +103,7 @@ class CustomAlertDialog extends StatelessWidget {
           SizedBox(
             width: dialogWidth * 0.90,
             child: CustomTextButton(
-                label: 'Continue',
+                label: kcontinueButtonLabel,
                 isFirst: true,
                 isEnable: true,
                 onPressed: () async {

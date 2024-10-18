@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodtracker/view_model/shared_preferences_services.dart';
 
 const Color _colorSeed = Color.fromARGB(215, 252, 137, 7);
 
@@ -119,7 +120,7 @@ fromSeed({
 
 class Manage extends ChangeNotifier {
   Manage(this.actualTheme);
-
+  TutorialService prefs = TutorialService();
   ThemeMode actualTheme;
 
   void changeTheme(ThemeMode theme) {
@@ -128,10 +129,12 @@ class Manage extends ChangeNotifier {
     if (actualTheme == ThemeMode.dark && chageFlag == 0) {
       actualTheme = ThemeMode.light;
       chageFlag = 1;
+      prefs.setActualTheme(false);
     }
     if (actualTheme == ThemeMode.light && chageFlag == 0) {
       actualTheme = ThemeMode.dark;
       chageFlag = 1;
+      prefs.setActualTheme(true);
     }
 
     notifyListeners();

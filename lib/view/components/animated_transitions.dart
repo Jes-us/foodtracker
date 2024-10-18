@@ -26,12 +26,6 @@ class _CustomAnimatedTransitionState extends State<CustomAnimatedTransition>
       switchOutCurve: Curves.linear,
       duration: const Duration(milliseconds: 100),
       child: widget.aniteWidget,
-      /*transitionBuilder: (child, animation) {
-          return SlideTransition(
-            position: offsetAnimation,
-            child: child,
-          );
-        }*/
     );
   }
 }

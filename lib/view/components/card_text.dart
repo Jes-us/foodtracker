@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodtracker/view/constants.dart';
 
 class CardText extends StatelessWidget {
   final String text;
@@ -23,7 +24,7 @@ class CardText extends StatelessWidget {
                 flex: 1,
                 child: FittedBox(
                   child: Text(
-                    'Better before',
+                    kbetterBeforeMessage,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSecondary,
                     ),
@@ -32,50 +33,26 @@ class CardText extends StatelessWidget {
               ),
               Flexible(
                 flex: 2,
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: FittedBox(
-                                child: Text(
-                                  DateTime.parse(text).day.toString(),
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: FittedBox(
-                                child: Text(
-                                  _getMonth(
-                                      DateTime.parse(text).month.toString()),
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ]),
+                    Expanded(
+                      flex: 1,
+                      child: FittedBox(
+                        child: Text(
+                          _getMonth(DateTime.parse(text).month.toString()),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                     Expanded(
                       flex: 1,
                       child: FittedBox(
                         child: RotatedBox(
-                          quarterTurns: 3,
+                          quarterTurns: 4,
                           child: Text(
                             DateTime.parse(text).year.toString(),
                             style: TextStyle(
@@ -100,73 +77,73 @@ String _getMonth(String date) {
   switch (date) {
     case "1":
       {
-        nameMonth = 'ENE';
+        nameMonth = kmonth1;
         return nameMonth;
       }
 
     case "2":
       {
-        nameMonth = 'FEV';
+        nameMonth = kmonth2;
         return nameMonth;
       }
 
     case "3":
       {
-        nameMonth = 'MAR';
+        nameMonth = kmonth3;
         return nameMonth;
       }
 
     case "4":
       {
-        nameMonth = 'ABR';
+        nameMonth = kmonth4;
         return nameMonth;
       }
 
     case "5":
       {
-        nameMonth = 'MAY';
+        nameMonth = kmonth5;
         return nameMonth;
       }
 
     case "6":
       {
-        nameMonth = 'JUN';
+        nameMonth = kmonth6;
         return nameMonth;
       }
 
     case "7":
       {
-        nameMonth = 'JUL';
+        nameMonth = kmonth7;
         return nameMonth;
       }
 
     case "8":
       {
-        nameMonth = 'ADO';
+        nameMonth = kmonth8;
         return nameMonth;
       }
 
     case "9":
       {
-        nameMonth = 'SEP';
+        nameMonth = kmonth9;
         return nameMonth;
       }
 
     case "10":
       {
-        nameMonth = 'OCT';
+        nameMonth = kmonth10;
         return nameMonth;
       }
 
     case "11":
       {
-        nameMonth = 'NOV';
+        nameMonth = kmonth11;
         return nameMonth;
       }
 
     case "12":
       {
-        nameMonth = 'DIC';
+        nameMonth = kmonth12;
         return nameMonth;
       }
   }

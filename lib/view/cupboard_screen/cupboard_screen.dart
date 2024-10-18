@@ -3,14 +3,18 @@ import 'package:foodtracker/view/components/google_ads.dart';
 import 'package:foodtracker/view/components/prodruct_card.dart';
 import 'package:foodtracker/view/components/loading_app.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
-import 'package:foodtracker/view/cupboard_screen/error_screen.dart';
-import 'package:foodtracker/view/cupboard_screen/success_screen.dart';
+import 'package:foodtracker/view/error_screen/error_screen.dart';
+import 'package:foodtracker/view/success_screen/success_screen.dart';
 import 'package:foodtracker/view_model/internet_connection_view_model.dart';
 import '../components/product_list.dart';
 import '../components/alert_dialog.dart';
 import '../components/animated_transitions.dart';
 import 'package:foodtracker/core/app_export.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
+//Tutorial Import
+import 'package:foodtracker/view/components/onboarding_tutorial.dart';
+import 'package:foodtracker/view_model/shared_preferences_services.dart';
+import 'package:foodtracker/view/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,10 +24,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TutorialService tutorialService = TutorialService();
+
+  GlobalKey themeChanger = GlobalKey();
+  GlobalKey scannerButton = GlobalKey();
+  GlobalKey productCard = GlobalKey();
+  late OnboardingTutorial onboardingTutorial;
   String scanBarcode = '-1';
 
   @override
   void initState() {
+    onboardingTutorial = OnboardingTutorial(
+      context: context,
+      themeChanger: themeChanger,
+      scannerButton: scannerButton,
+    );
+
+    tutorialService.isTutorialShown().then((value) {
+      if (!value) {
+        onboardingTutorial.createTutorial();
+        Future.delayed(Duration.zero, onboardingTutorial.showTutorial);
+        tutorialService.setTutorialShown(true);
+      }
+    });
+
     super.initState();
   }
 
@@ -56,6 +80,7 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 actions: [
                   IconButton(
+                    key: themeChanger,
                     icon: CustomAnimatedIcon(change: themeNotifier.actualTheme),
                     onPressed: () {
                       themeNotifier.changeTheme(ThemeMode.dark);
@@ -63,15 +88,30 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ],
-                title: Text(
-                  'Food Tracker',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'Abril Fatface',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer),
-                ),
+                title:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Container(
+                    height: screenWidth * 0.07,
+                    width: screenWidth * 0.07,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(kbarImage),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    key: productCard,
+                    kappBarTittle,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: kappBarTittleFont,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer),
+                  ),
+                ]),
               ),
               body: SizedBox.expand(
                 child: Stack(
@@ -82,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                       left: 50.0,
                       child: Visibility(
                         visible: internetConnection.connectionStatus ==
-                            'No Connection',
+                            knoConnectionLabel,
                         child: Container(
                           height: screenHeight * 0.05,
                           width: screenWidth * 0.70,
@@ -99,8 +139,9 @@ class _HomePageState extends State<HomePage> {
                                   child: Icon(
                                     Icons.wifi_off,
                                     size: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
                                   ),
                                 ),
                                 const SizedBox(
@@ -108,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    'No Connection',
+                                    knoConnectionLabel,
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -128,7 +169,8 @@ class _HomePageState extends State<HomePage> {
                 visible: showfloatingActionButton(
                     productViewModel, internetConnection),
                 child: FloatingActionButton(
-                    heroTag: 'btn1',
+                    key: scannerButton,
+                    heroTag: kheroFloatingBtn,
                     shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     child: const Icon(
@@ -139,10 +181,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () async {
                       await _scan();
-                      // scanBarcode = '051500243312'; //jiff
-                      // scanBarcode = '021000619849'; //queso philadelphia
+                      //scanBarcode = '051500243312'; //jiff
+                      //scanBarcode = '021000619849'; //queso philadelphia
+                      //scanBarcode = '021000619849'; //queso philadelphia
 
-                      if (scanBarcode != '-1' && scanBarcode != "") {
+                      if (scanBarcode != kscanError && scanBarcode != "") {
                         await productViewModel.setUpcNumber(scanBarcode);
                         await productViewModel.getProducts();
                       }
@@ -220,9 +263,9 @@ class _HomePageState extends State<HomePage> {
       final result = await BarcodeScanner.scan(
         options: ScanOptions(
           strings: {
-            'cancel': 'cancel',
-            'flash_on': 'flash_on',
-            'flash_off': 'flash_off'
+            'cancel': kscanCancelLabel,
+            'flash_on': kflashOnLabel,
+            'flash_off': kflashOffLabel,
           },
           useCamera: -1,
           autoEnableFlash: false,
@@ -234,7 +277,7 @@ class _HomePageState extends State<HomePage> {
       );
       scanBarcode = result.rawContent.toString();
     } catch (e) {
-      scanBarcode = '-1';
+      scanBarcode = kscanError;
     }
   }
 }

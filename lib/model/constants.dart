@@ -1,6 +1,4 @@
 //Success code
-import 'package:flutter/material.dart';
-
 const ksuccess = 'success';
 const ksuccesswwarnings = 'success_with_warnings';
 
@@ -18,10 +16,4 @@ const kgatewayTimeOut = 504;
 const knotImplenmented = 501;
 const kundifines = -1;
 
-const kserErrorCode = 'OK';
-const kgap20 = SizedBox(
-  height: 20,
-);
-const kgap10 = SizedBox(
-  height: 10,
-);
+const kagent = 'FoodTracker';

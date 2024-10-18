@@ -1,6 +1,7 @@
 import 'package:foodtracker/model/api_status.dart';
-import 'package:foodtracker/constants.dart';
+import 'package:foodtracker/model/constants.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:foodtracker/model/constants.dart';
 
 class ProdructService {
   String upcNumber;
@@ -10,7 +11,7 @@ class ProdructService {
     var barcode = upcNumber;
 
     final UserAgent apiConfiguration =
-        OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'FoodTracker');
+        OpenFoodAPIConfiguration.userAgent = UserAgent(name: kagent);
 
     final ProductQueryConfiguration configuration = ProductQueryConfiguration(
       barcode,

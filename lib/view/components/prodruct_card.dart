@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodtracker/core/app_export.dart';
 import 'package:foodtracker/view/components/custom_text_button.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
+import 'package:foodtracker/view/constants.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key});
@@ -17,11 +18,9 @@ class ProductCard extends StatelessWidget {
       image = '';
     }
 
-    String brand = productViewModel.productModel.brands ?? 'not found';
+    String brand = productViewModel.productModel.brands ?? kbrandNotFound;
     String description =
-        productViewModel.productModel.ingredientsText ?? 'not found';
-    String title =
-        'not found'; //productViewModel.productModel.genericName.toString();
+        productViewModel.productModel.ingredientsText ?? kingredientsNotFoound;
 
     double deviceDisplayheight =
         ScreenSizeProvider.of(context)?.screenHeight ?? 0;
@@ -46,11 +45,11 @@ class ProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Spacer(),
-            Align(
-              alignment: Alignment.center,
+            Padding(
+              padding: const EdgeInsets.all(15.0),
               child: Text(
                 brand,
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
                 style: ktextStyle1,
               ),
             ),
@@ -65,8 +64,9 @@ class ProductCard extends StatelessWidget {
               ),
               child: Image.network(
                 image,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Text('error'),
+                errorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.photo_album,
+                    color: Theme.of(context).colorScheme.onSurface),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) {
                     return child;
@@ -74,8 +74,8 @@ class ProductCard extends StatelessWidget {
                     return Center(
                       child: Container(
                         padding: const EdgeInsets.all(20.0),
-                        child: const CircularProgressIndicator(
-                          color: Colors.white,
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.primary,
                           strokeWidth: 5,
                         ),
                       ),
@@ -86,13 +86,16 @@ class ProductCard extends StatelessWidget {
             ),
             const Spacer(),
             Expanded(
-              flex: 3,
+              flex: 6,
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Text(
-                  'Engredients:$description',
-                  textAlign: TextAlign.center,
-                  style: ktextStyle2,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    '$kingredients $description',
+                    textAlign: TextAlign.center,
+                    style: ktextStyle2,
+                  ),
                 ),
               ),
             ),
@@ -100,7 +103,7 @@ class ProductCard extends StatelessWidget {
             SizedBox(
               width: deviceDisplaywidth * 0.90,
               child: CustomTextButton(
-                label: 'Back',
+                label: kbackButton,
                 onPressed: () {
                   productViewModel.cancelProdcutStorage();
                 },
@@ -111,11 +114,12 @@ class ProductCard extends StatelessWidget {
             SizedBox(
               width: deviceDisplaywidth * 0.90,
               child: CustomTextButton(
-                label: 'Store Product',
+                label: kstoreProductButton,
                 onPressed: () async {
                   DateTime? pickedDate = await showDatePicker(
                     initialEntryMode: DatePickerEntryMode.calendarOnly,
                     initialDatePickerMode: DatePickerMode.year,
+
                     builder: (context, child) {
                       return Stack(
                         alignment: Alignment.center,

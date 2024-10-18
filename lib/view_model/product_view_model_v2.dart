@@ -39,7 +39,7 @@ class ProductViewModel extends ChangeNotifier {
   String _successMessage = '';
 
   ProductViewModel() {
-    getDataBaseProducts();
+    //getDataBaseProducts();
   }
 
   get productModel => _productModel;

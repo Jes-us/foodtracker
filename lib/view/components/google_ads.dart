@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodtracker/view/components/screen_size.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:foodtracker/view/constants.dart';
 
 class GoogleAdsBanner extends StatefulWidget {
   const GoogleAdsBanner({super.key});
@@ -15,8 +15,7 @@ class _GoogleAdsBannerState extends State<GoogleAdsBanner> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId:
-          'ca-app-pub-3940256099942544/6300978111', // ID de anuncio de prueba
+      adUnitId: kadUnitId, // ID de anuncio de prueba
       size: AdSize.banner,
       request: AdRequest(),
       listener: BannerAdListener(
@@ -27,7 +26,6 @@ class _GoogleAdsBannerState extends State<GoogleAdsBanner> {
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();
-          print('Error al cargar el anuncio: $error');
         },
       ),
     );
@@ -44,17 +42,13 @@ class _GoogleAdsBannerState extends State<GoogleAdsBanner> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = ScreenSizeProvider.of(context)?.screenHeight ?? 0.0;
-    double screenWidth = ScreenSizeProvider.of(context)?.screenWidth ?? 0.0;
     return _isBannerAdReady
-        ? Expanded(
-            child: Container(
-              color: Theme.of(context).colorScheme.surface,
-              alignment: Alignment.center,
-              width: _bannerAd.size.width.toDouble(),
-              height: _bannerAd.size.height.toDouble(),
-              child: AdWidget(ad: _bannerAd),
-            ),
+        ? Container(
+            color: Theme.of(context).colorScheme.surface,
+            alignment: Alignment.center,
+            width: _bannerAd.size.width.toDouble(),
+            height: _bannerAd.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd),
           )
         : SizedBox.shrink();
   }

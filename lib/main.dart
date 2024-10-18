@@ -2,18 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
 import 'package:foodtracker/view/cupboard_screen/cupboard_screen.dart';
 import 'package:foodtracker/view_model/internet_connection_view_model.dart';
+import 'package:foodtracker/view_model/shared_preferences_services.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/app_export.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-ThemeMode customizedThemeMode = ThemeMode.dark;
+ThemeMode customizedThemeMode = ThemeMode.light;
 String? email;
+ProductViewModel productViewModel = ProductViewModel();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   sqfliteFfiInit();
+  await productViewModel.getDataBaseProducts();
+  await getThemeMode();
   runApp(const MyApp());
+}
+
+getThemeMode() async {
+  TutorialService prefs = TutorialService();
+  bool themeMode = await prefs.getActualTheme();
+  if (themeMode == true) {
+    customizedThemeMode = ThemeMode.dark;
+  } else {
+    customizedThemeMode = ThemeMode.light;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +40,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => Manage(customizedThemeMode),
           ),
-          ChangeNotifierProvider(create: (context) => ProductViewModel()),
+          ChangeNotifierProvider(create: (context) => productViewModel),
           ChangeNotifierProvider(create: (context) => ConnectivityModel()),
         ],
         child: Consumer<Manage>(

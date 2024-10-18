@@ -16,7 +16,7 @@ class ProductImage extends StatelessWidget {
         if (loadingProgress == null) {
           return child;
         } else {
-          return const CustomCircularProgressIndicator();
+          return CustomCircularProgressIndicator();
         }
       },
       errorBuilder: (context, error, stackTrace) {
