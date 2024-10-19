@@ -31,7 +31,7 @@ class ErrorScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.02,
             ),
-            Text(kerroMessage,
+            Text(productViewModel.userError.message,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,

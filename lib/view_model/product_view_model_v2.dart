@@ -12,16 +12,14 @@ enum CupboardStattes {
   loading,
   showcard,
   showalert,
-  ErrorState,
-  SuccessState
+  errorState,
+  successState
 }
 
 class ProductViewModel extends ChangeNotifier {
   Product? _productModel;
 
   UserError _userError = UserError(code: 0, message: '');
-
-  final CupboardStattes _cupboardStattes = CupboardStattes.initial;
 
   ProdfProvider productsDB = ProdfProvider();
 
@@ -30,6 +28,7 @@ class ProductViewModel extends ChangeNotifier {
   bool _showalert = false;
   bool _showError = false;
   bool _showSuccess = false;
+  bool _showOpenFoodFacts = true;
 
   String _upcNumber = '';
   List<Map<String, dynamic>> _dbProduct = [];
@@ -61,6 +60,8 @@ class ProductViewModel extends ChangeNotifier {
   get upcNumber => _upcNumber;
 
   get successMessage => _successMessage;
+
+  get openFoodFacts => _showOpenFoodFacts;
 
   get prodList {
     return _dbProduct;
@@ -130,8 +131,13 @@ class ProductViewModel extends ChangeNotifier {
       _showSuccessDialog('Product stored in the cupboard');
       notifyListeners();
     } catch (e) {
-      print(e);
-      //TODO definir manejo de errores
+      UserError userError = UserError(code: -1, message: e.toString());
+
+      setUserError(userError);
+      setLoading(false);
+      _showErrorDialog();
+
+      notifyListeners();
     }
   }
 
@@ -192,6 +198,11 @@ class ProductViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  dismisOpenFoodFacts() {
+    _showOpenFoodFacts = false;
+    notifyListeners();
+  }
+
   productViewModel() {
     getProducts();
     notifyListeners();
@@ -223,7 +234,6 @@ class ProductViewModel extends ChangeNotifier {
   }
 
   getProducts() async {
-    // setLoading(true); TODO desbloquear despues de la prueba de fotografia
     setLoading(true);
     await cleanProductViewModel();
     var response = await ProdructService(_upcNumber).getProductInfor();

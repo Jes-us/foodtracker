@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodtracker/core/app_export.dart';
 import 'package:foodtracker/view/components/custom_text_button.dart';
+import 'package:foodtracker/view/components/loading_app.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
 import 'package:foodtracker/view/constants.dart';
 
@@ -71,15 +72,7 @@ class ProductCard extends StatelessWidget {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).colorScheme.primary,
-                          strokeWidth: 5,
-                        ),
-                      ),
-                    );
+                    return Center(child: LoadingApp());
                   }
                 },
               ),

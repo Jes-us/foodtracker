@@ -8,7 +8,7 @@ import 'empty_product.dart';
 import 'package:foodtracker/view/constants.dart';
 
 class ProductList extends StatelessWidget {
-  ProductList({
+  const ProductList({
     super.key,
   });
 
@@ -151,8 +151,9 @@ class ProductList extends StatelessWidget {
                             flex: 1,
                             child: FittedBox(
                               child: Text(
-                                productViewModel.prodList[index]['product']
-                                        .brands.isEmpty
+                                (productViewModel.prodList[index]['product']
+                                            ?.brands?.isEmpty ??
+                                        true)
                                     ? 'Brand not available'
                                     : productViewModel
                                                 .prodList[index]['product']

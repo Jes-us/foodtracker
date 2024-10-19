@@ -36,6 +36,7 @@ const String kemptyProductfilling = '+';
 
 //google_ads
 const String kadUnitId = 'ca-app-pub-3940256099942544/6300978111';
+//const String kadUnitId = 'ca-app-pub-5045989274355121/8553595322';
 const String kerrorLoadingAd = 'Error loading ads ';
 
 //Tutorial
@@ -64,3 +65,7 @@ const String kstoreProductButton = 'Store Product';
 const int kdefaultProducts = 6;
 const int kextraProducts = 1;
 const String kexpiredLabel = 'Expired';
+
+const String kfoodFactsLogo = 'assets/images/open-food-facts-seeklogo.png';
+const String kfoodFactsLabel = 'Powered by Open Food Facts';
+const int ksecondsDelay = 3;

@@ -35,7 +35,6 @@ class _GoogleAdsBannerState extends State<GoogleAdsBanner> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _loadBannerAd();
     super.initState();
   }

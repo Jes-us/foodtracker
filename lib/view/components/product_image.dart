@@ -12,7 +12,8 @@ class ProductImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.network(
       imageUrl,
-      loadingBuilder: (context, child, loadingProgress) {
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) {
           return child;
         } else {
@@ -39,11 +40,9 @@ class CustomCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        child: const CircularProgressIndicator(
-          color: Color(0xFfF05833),
-          strokeWidth: 5,
-        ),
+      child: CircularProgressIndicator(
+        color: Color(0xFfF05833),
+        strokeWidth: 4,
       ),
     );
   }

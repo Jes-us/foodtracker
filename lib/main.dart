@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
-import 'package:foodtracker/view/cupboard_screen/cupboard_screen.dart';
+import 'package:foodtracker/view/openfoodfacts_screen/open_food_facts.dart';
 import 'package:foodtracker/view_model/internet_connection_view_model.dart';
 import 'package:foodtracker/view_model/shared_preferences_services.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -17,7 +18,13 @@ void main() async {
   sqfliteFfiInit();
   await productViewModel.getDataBaseProducts();
   await getThemeMode();
-  runApp(const MyApp());
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 getThemeMode() async {
@@ -85,7 +92,7 @@ class MyApp extends StatelessWidget {
                     }),
                   )),
                 ),
-                home: HomePage(),
+                home: OpenFoodFacts(),
               ),
             );
           },

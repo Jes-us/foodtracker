@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodtracker/view/components/screen_size.dart';
 import 'package:foodtracker/core/app_export.dart';
+import 'package:foodtracker/view/constants.dart';
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
@@ -10,7 +11,7 @@ class SuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductViewModel productViewModel = context.read<ProductViewModel>();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: ksecondsDelay), () {
       productViewModel.dismissSuccessDialog();
     });
 

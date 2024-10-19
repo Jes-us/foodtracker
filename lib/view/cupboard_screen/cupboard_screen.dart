@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
 
     scanBarcode = '-1';
 
+    // ignore: unused_local_variable
     bool change = false;
 
     return Consumer<Manage>(
@@ -182,8 +183,8 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () async {
                       await _scan();
                       //scanBarcode = '051500243312'; //jiff
-                      //scanBarcode = '021000619849'; //queso philadelphia
-                      //scanBarcode = '021000619849'; //queso philadelphia
+                      // scanBarcode = '021000619'; //queso philadelphia
+                      // scanBarcode = '0'; //queso philadelphia
 
                       if (scanBarcode != kscanError && scanBarcode != "") {
                         await productViewModel.setUpcNumber(scanBarcode);
@@ -255,6 +256,7 @@ class _HomePageState extends State<HomePage> {
         productViewModel.showSuccess == true) {
       return CustomAnimatedTransition(aniteWidget: SuccessScreen());
     }
+
     return const LoadingApp();
   }
 

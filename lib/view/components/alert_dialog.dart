@@ -83,9 +83,11 @@ class CustomAlertDialog extends StatelessWidget {
                       : productViewModel
                           .prodList[productViewModel.delIndex]['product'].brands
                           .toString(),
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold),
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ]),
         ),

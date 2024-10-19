@@ -17,3 +17,13 @@ const knotImplenmented = 501;
 const kundifines = -1;
 
 const kagent = 'FoodTracker';
+
+const kproductNotFound = 'Product is not registered at Open Food Facts';
+const kproductInvalidBarcode = 'Invalid code bar. Please try again.';
+const kproductTooManyRequests =
+    'Too many requests. Please try again in a few minutes.';
+const kproductServerError = 'Server error. Please try again in a few minutes.';
+const kopenFoodFactsNotFoundId = 'product_not_found';
+const kopenFoodFactsInvalidBarcode = 'invalid_barcode';
+const kopenFoodFactsTooManyRequests = 'too_many_requests';
+const kopenFoodFactsServerError = 'server_error';

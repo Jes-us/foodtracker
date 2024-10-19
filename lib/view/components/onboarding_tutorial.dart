@@ -32,21 +32,21 @@ class OnboardingTutorial {
       opacityShadow: 0.0,
       imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       onFinish: () {
-        print("finish");
+        //   print("finish");
       },
       onClickTarget: (target) {
-        print('onClickTarget: $target');
+        //  print('onClickTarget: $target');
       },
       onClickTargetWithTapPosition: (target, tapDetails) {
-        print("target: $target");
-        print(
-            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        // print("target: $target");
+        //print(
+        //    "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
-        print('onClickOverlay: $target');
+        //print('onClickOverlay: $target');
       },
       onSkip: () {
-        print("skip");
+        //  print("skip");
         return true;
       },
     );

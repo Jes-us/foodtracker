@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodtracker/view_model/shared_preferences_services.dart';
 
-const Color _colorSeed = Color.fromARGB(215, 252, 137, 7);
+//const Color _colorSeed = Color.fromARGB(215, 252, 137, 7);
 
 const kColorScheme = ColorScheme(
   brightness: Brightness.light,

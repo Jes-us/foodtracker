@@ -1,7 +1,6 @@
 import 'package:foodtracker/model/api_status.dart';
 import 'package:foodtracker/model/constants.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:foodtracker/model/constants.dart';
 
 class ProdructService {
   String upcNumber;
@@ -10,6 +9,7 @@ class ProdructService {
   Future<Object> getProductInfor() async {
     var barcode = upcNumber;
 
+    // ignore: unused_local_variable
     final UserAgent apiConfiguration =
         OpenFoodAPIConfiguration.userAgent = UserAgent(name: kagent);
 
@@ -25,20 +25,29 @@ class ProdructService {
 
       if (ksuccess == result.status || ksuccesswwarnings == result.status) {
         int errorCode;
-        String? errorMessage;
 
         if (result.product == null) {
           errorCode = 1;
-          errorMessage = result.status;
 
-          return Failure(errorCode: errorCode, errorResponse: errorMessage);
+          return Failure(errorCode: errorCode, errorResponse: kproductNotFound);
         } else {
           return Success(code: 0, response: result.product);
         }
       }
 
       if (ksuccess != result.status) {
-        return Failure(errorCode: -1, errorResponse: result.status);
+        if ((result.result?.id ?? '') == kopenFoodFactsNotFoundId) {
+          return Failure(errorCode: knotFound, errorResponse: kproductNotFound);
+        } else if (result.status == kopenFoodFactsInvalidBarcode) {
+          return Failure(errorCode: -2, errorResponse: kproductInvalidBarcode);
+        } else if (result.status == kopenFoodFactsTooManyRequests) {
+          return Failure(errorCode: -3, errorResponse: kproductTooManyRequests);
+        } else if (result.status == kopenFoodFactsServerError) {
+          return Failure(errorCode: -4, errorResponse: kproductServerError);
+        } else {
+          // Manejo de errores generales
+          return Failure(errorCode: -1, errorResponse: result.status);
+        }
       }
     } catch (e) {
       return Failure(errorCode: kundifines, errorResponse: e.toString());
